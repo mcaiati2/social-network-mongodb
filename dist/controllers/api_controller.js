@@ -1,14 +1,14 @@
 // This file defines the controller functions for handling API requests.
 import User from '../models/User.js';
 import Thought from '../models/Thought.js';
-// GET all users
+// GET all users TESTED & FUNCTIONING
 export async function getAllUsers(_, res) {
     const user = await User.find();
     res.json({
         user: user
     });
 }
-// GET single user by ID
+// GET single user by ID TESTED & FUNCTIONING
 export async function getSingleUserById(req, res) {
     const user_id = req.params.user_id;
     const user = await User.findById(user_id).populate({
@@ -19,7 +19,7 @@ export async function getSingleUserById(req, res) {
         user: user
     });
 }
-// POST a new user
+// POST a new user - TESTED & FUNCTIONING
 export async function createUser(req, res) {
     // put the code that might throw an error. 'Try to execute it'.
     try {
@@ -47,15 +47,18 @@ export async function createUser(req, res) {
 }
 ;
 // PUT to update a user by it's _id
-// export async function updateUserById(req: Request, res: Response) {
-//   const thought_id = req.body.thought_id;
-//   const user_id = req.body.user_id;
-//   await User.findByIdAndUpdate(user_id, {
-//     $pull: {
-//       thoughts: thought_id
-//     }
-//   })
-// }
+export async function updateUserById(req, res) {
+    const thought_id = req.body.thought_id;
+    const user_id = req.body.user_id;
+    await User.findByIdAndUpdate(user_id, {
+        $pull: {
+            thoughts: thought_id
+        }
+    });
+    res.json({
+        message: "User information updated!"
+    });
+}
 // DELETE to remove a user by it's _id
 export async function deleteUserById(req, res) {
     const user_id = req.body.user_id;

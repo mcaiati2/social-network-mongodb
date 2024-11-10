@@ -1,0 +1,27 @@
+{
+  "name": "social_media_mongodb",
+  "version": "1.0.0",
+  "description": "![License](https://img.shields.io/badge/License-MIT-blue.svg)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon",
+    "seed": "cd ./server && npm run seed",
+    "build": "tsc",
+    "start": "node ./dist/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.21.1",
+    "mongoose": "^8.8.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.0",
+    "nodemon": "^3.1.7"
+  }
+}

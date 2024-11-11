@@ -13,7 +13,8 @@ import {
   getAllThoughts,
   updateThoughtById,
   deleteThoughtById,
-  addNewReaction
+  addNewReaction,
+  deleteReactionById
 } from '../controllers/api_controller.js';
 
 const router = Router();
@@ -49,6 +50,8 @@ router.put('/thoughts/:thought_id', updateThoughtById);
 router.delete('/thoughts/:thought_id', deleteThoughtById);
 
 // POST route to add a new reaction
-router.post('/thoughts/:thought_id', addNewReaction)
+router.post('/reaction/:thought_id', addNewReaction);
+
+router.delete('/reaction/:reaction_id', deleteReactionById);
 
 export default router;

@@ -72,39 +72,39 @@ const userSchema = new Schema(
 
     friends: [
       {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
-    }
-  ],
-  }, 
-  {
-  // - OPTION in Schema definition.
-  // - toJson option allows you to specify a transformation function. 
-  // - This function will be called when a document is converted to JSON.
-  // - It will modify/transform the document (User) to remove sensitive information.
-  // - This will ONLY apply when the document is converted to JSON.
-  // - Used to add virtual properties
-
-  //  - "Password and __v are going to be hashed and stored in the database. BUT when the document is converted to JSON, this transformation will remove those two fields for security."
-  toJSON: {
-    virtuals: true, // needs to be set to include virtual properties.
-    // - first argument is the document being transformed (often _).
-    // - user is the plain JS object representation of the document.
-    transform(_, user) {
-      // - Delete the user's password
-      delete user.password;
-
-      // - __v is an internal version key. Removed because it's irrelevant to the client.
-      delete user.__v;
-
-      // - Return the modified user object (will now exclude the password and __v fields).
-      return user;
-    }
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ],
   },
-  toObject: {
-    virtuals: true, // include virtual properties in the plain JS object output (when converting a mongoose document)
+  {
+    // - OPTION in Schema definition.
+    // - toJson option allows you to specify a transformation function. 
+    // - This function will be called when a document is converted to JSON.
+    // - It will modify/transform the document (User) to remove sensitive information.
+    // - This will ONLY apply when the document is converted to JSON.
+    // - Used to add virtual properties
+
+    //  - "Password and __v are going to be hashed and stored in the database. BUT when the document is converted to JSON, this transformation will remove those two fields for security."
+    toJSON: {
+      virtuals: true, // needs to be set to include virtual properties.
+      // - first argument is the document being transformed (often _).
+      // - user is the plain JS object representation of the document.
+      transform(_, user) {
+        // - Delete the user's password
+        delete user.password;
+
+        // - __v is an internal version key. Removed because it's irrelevant to the client.
+        delete user.__v;
+
+        // - Return the modified user object (will now exclude the password and __v fields).
+        return user;
+      }
+    },
+    toObject: {
+      virtuals: true, // include virtual properties in the plain JS object output (when converting a mongoose document)
+    }
   }
-}
 );
 
 // MIDDLEWARE //

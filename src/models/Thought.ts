@@ -17,7 +17,11 @@ const reactionSchema = new Schema(
       required: true,
       maxLength: [280, 'Your reaction may not exceed 280 characters']
     },
-
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
     username: {
       type: String,
       required: true,

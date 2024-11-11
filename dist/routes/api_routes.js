@@ -1,7 +1,7 @@
 // - Imports the Router class from the Express library.
 // - I got the ability to do this by running npm i express (didn't need to export)
 import { Router } from 'express';
-import { createUser, getAllUsers, getSingleUserById, updateUserById, deleteUserById, addNewThought, getSingleThoughtById, getAllThoughts, updateThoughtById, deleteThoughtById, addNewReaction } from '../controllers/api_controller.js';
+import { createUser, getAllUsers, getSingleUserById, updateUserById, deleteUserById, addNewThought, getSingleThoughtById, getAllThoughts, updateThoughtById, deleteThoughtById, addNewReaction, deleteReactionById } from '../controllers/api_controller.js';
 const router = Router();
 // POST route to create a user
 router.post('/users', createUser);
@@ -24,5 +24,6 @@ router.put('/thoughts/:thought_id', updateThoughtById);
 // DELETE route to delete thought by ID
 router.delete('/thoughts/:thought_id', deleteThoughtById);
 // POST route to add a new reaction
-router.post('/thoughts/:thought_id', addNewReaction);
+router.post('/reaction/:thought_id', addNewReaction);
+router.delete('/reaction/:reaction_id', deleteReactionById);
 export default router;

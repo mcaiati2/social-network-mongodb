@@ -68,11 +68,27 @@ export async function deleteUserById(req, res) {
         message: "User removed successfully."
     });
 }
-// TODO POST to add a new friend to a user's friend list
-// export async function addNewFriendToFriendList(req: Request, res: Response) {
-//   const user = await User.findById(req.body.user_id);
-// }
-// TODO DELETE to remove a friend from a user's friend list
+// DONE
+export async function addFriendToFriendsList(req, res) {
+    const friendId = req.body.friendId;
+    await User.findByIdAndUpdate(req.body.userId, {
+        $push: { friends: friendId }
+    });
+    res.json({
+        message: "friend added",
+    });
+}
+/// DONE
+export async function deleteFriendById(req, res) {
+    const userId = req.body.userId;
+    const friendId = req.body.friendId;
+    await User.findByIdAndUpdate(userId, {
+        $pull: { friends: friendId }
+    });
+    res.json({
+        message: 'Friend deleted'
+    });
+}
 // DONE
 export async function getAllThoughts(_, res) {
     try {

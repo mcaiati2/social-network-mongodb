@@ -14,7 +14,9 @@ import {
   updateThoughtById,
   deleteThoughtById,
   addNewReaction,
-  deleteReactionById
+  deleteReactionById,
+  addFriendToFriendsList,
+  deleteFriendById
 } from '../controllers/api_controller.js';
 
 const router = Router();
@@ -54,5 +56,11 @@ router.post('/reaction/:thought_id', addNewReaction);
 
 // DELETE route to delete reaction by thoughtID and reactionID
 router.delete('/thoughts/:thoughtId/reactions/:reaction_id', deleteReactionById);
+
+// POST route to add a friend to user's friend list
+router.post('/friends', addFriendToFriendsList);
+
+// DELETE route to delete a friend from a user's friend list
+router.delete('/friends', deleteFriendById);
 
 export default router;

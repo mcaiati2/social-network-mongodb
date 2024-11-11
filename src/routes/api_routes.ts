@@ -34,7 +34,7 @@ router.get('/user/:user_id', getSingleUserById);
 router.put('/user/:user_id', updateUserById);
 
 // DELETE route to remove a user by ID
-router.delete('/user/:user_id', deleteUserById);
+router.delete('/user/:user_id', deleteUserById); // TODO - remove user's associated thoughts when deleted
 
 // POST route to add a new thought and push id to the associated user
 router.post('/thought', addNewThought);
@@ -52,13 +52,13 @@ router.put('/thoughts/:thought_id', updateThoughtById);
 router.delete('/thoughts/:thought_id', deleteThoughtById);
 
 // POST route to add a new reaction
-router.post('/reaction/:thought_id', addNewReaction);
+router.post('/thoughts/:thought_id/reactions', addNewReaction);
 
 // DELETE route to delete reaction by thoughtID and reactionID
 router.delete('/thoughts/:thoughtId/reactions/:reaction_id', deleteReactionById);
 
 // POST route to add a friend to user's friend list
-router.post('/friends', addFriendToFriendsList);
+router.post('/friends', addFriendToFriendsList); // TODO fix this to use params instead of body
 
 // DELETE route to delete a friend from a user's friend list
 router.delete('/friends', deleteFriendById);

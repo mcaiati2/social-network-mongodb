@@ -1,14 +1,14 @@
 // This file defines the controller functions for handling API requests.
 import User from '../models/User.js';
 import Thought from '../models/Thought.js';
-// GDONE
+// DONE
 export async function getAllUsers(_, res) {
     const user = await User.find();
     res.json({
         user: user
     });
 }
-// GET single user by ID TESTED & FUNCTIONING
+// DONE
 export async function getSingleUserById(req, res) {
     const user_id = req.params.user_id;
     const user = await User.findById(user_id).populate({
@@ -144,13 +144,18 @@ export async function addNewReaction(req, res) {
         res.status(500).json({ message: 'Server error', error });
     }
 }
-// TODO DELETE to pull and remove a reaction by the reaction's reaction_Id value
+// DONE
 export async function deleteReactionById(req, res) {
-    const reaction_id = req.params.reaction_id;
-    await Thought.deleteOne({
-        _id: reaction_id
-    });
-    res.json({
-        message: 'Reaction deleted'
-    });
+    const { thoughtId, reaction_id } = req.params;
+    try {
+        await Thought.updateOne({ _id: thoughtId, 'reactions.reactionId': reaction_id }, { $pull: { reactions: { reactionId: reaction_id } } });
+        res.json({
+            message: 'Reaction deleted'
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: 'Error deleting reaction.',
+        });
+    }
 }

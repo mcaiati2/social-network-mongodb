@@ -7,7 +7,7 @@ import User from '../models/User.js';
 import Thought from '../models/Thought.js';
 
 
-// GDONE
+// DONE
 export async function getAllUsers(_: Request, res: Response) {
   const user = await User.find();
 
@@ -16,7 +16,7 @@ export async function getAllUsers(_: Request, res: Response) {
   })
 }
 
-// GET single user by ID TESTED & FUNCTIONING
+// DONE
 export async function getSingleUserById(req: Request, res: Response) {
   const user_id = req.params.user_id;
 
@@ -182,14 +182,22 @@ export async function addNewReaction(req: Request, res: Response) {
   }
 }
 
-// TODO DELETE to pull and remove a reaction by the reaction's reaction_Id value
+// DONE
 export async function deleteReactionById(req: Request, res: Response) {
-  const reaction_id = req.params.reaction_id;
-  await Thought.deleteOne({
-    _id: reaction_id
-  });
+  const { thoughtId, reaction_id } = req.params;
 
-  res.json({
-    message: 'Reaction deleted'
-  });
+  try {
+    await Thought.updateOne(
+      { _id: thoughtId, 'reactions.reactionId': reaction_id },
+      { $pull: { reactions: { reactionId: reaction_id } } }
+    );
+
+    res.json({
+      message: 'Reaction deleted'
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error deleting reaction.',
+    });
+  }
 }

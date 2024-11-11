@@ -52,6 +52,7 @@ router.delete('/thoughts/:thought_id', deleteThoughtById);
 // POST route to add a new reaction
 router.post('/reaction/:thought_id', addNewReaction);
 
-router.delete('/reaction/:reaction_id', deleteReactionById);
+// DELETE route to delete reaction by thoughtID and reactionID
+router.delete('/thoughts/:thoughtId/reactions/:reaction_id', deleteReactionById);
 
 export default router;

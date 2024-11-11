@@ -79,7 +79,6 @@ const userSchema = new Schema({
     }
 });
 // MIDDLEWARE //
-// TODO - finish these comments.
 // - This code block is a Mongoose middleware function.
 // - Ensures the user's password is hashed before being stored.
 // - Call the pre() method on the userSchema we created.

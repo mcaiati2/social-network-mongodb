@@ -52,13 +52,16 @@ const thoughtSchema = new Schema(
       type: Date,
       // - This automatically sets the current date and time when a new document is created.
       default: Date.now,
-      // TODO - Use a getter method to format the timestamp on query.
+      get: (timestamp: Date) => timestamp.toLocaleString(),
     },
-
     username: {
-      type: String, // TODO String type or Schema.Types.ObjectId ?
-      ref: 'User',
+      type: String,
       required: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
     },
     reactions: [reactionSchema],
   },
@@ -75,7 +78,6 @@ const thoughtSchema = new Schema(
 
 );
 
-// TODO notes and reaction schema notes
 thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 });

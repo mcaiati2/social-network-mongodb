@@ -36,7 +36,7 @@ export async function createUser(req, res) {
             errors.push('That eamil address is already in use');
         }
         else {
-            for (const prop in error.erros) {
+            for (const prop in error.errors) {
                 errors.push(error.errors[prop].message);
             }
         }
@@ -46,22 +46,21 @@ export async function createUser(req, res) {
     }
 }
 ;
-// PUT to update a user by it's _id
+// PUT to update a user by it's _id COMPLETED & TESTED
 export async function updateUserById(req, res) {
-    const thought_id = req.body.thought_id;
-    const user_id = req.body.user_id;
-    await User.findByIdAndUpdate(user_id, {
-        $pull: {
-            thoughts: thought_id
-        }
-    });
+    const user_id = req.params.user_id;
+    const username = req.body.username;
+    const updatedUser = await User.findByIdAndUpdate(user_id, {
+        username: username
+    }, { new: true });
     res.json({
-        message: "User information updated!"
+        message: "User information updated!",
+        user: updatedUser
     });
 }
-// DELETE to remove a user by it's _id
+// DELETE to remove a user by it's _id TESTED & FUNCTIONING
 export async function deleteUserById(req, res) {
-    const user_id = req.body.user_id;
+    const user_id = req.params.user_id;
     await User.deleteOne({
         _id: user_id
     });
@@ -75,30 +74,77 @@ export async function deleteUserById(req, res) {
 //   const user = await User.findById(req.body.user_id);
 // }
 // TODO DELETE to remove a friend from a user's friend list
-// DONE GET to get all thoughts
+// DONE GET to get all thoughts COMPLETED & TESTED
 export async function getAllThoughts(_, res) {
-    const thoughts = await Thought.find().populate({
-        path: 'user',
-        populate: {
-            path: 'thoughts'
-        }
-    });
-    res.json(thoughts);
+    try {
+        const thoughts = await Thought.find().populate({
+            path: 'user',
+            select: 'username' // Select the fields you need from the User model
+        });
+        res.json(thoughts);
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
 }
-// DONE GET to get a single thought by it's _id
+// DONE GET to get a single thought by it's _id TESTED & COMPLETED
 export async function getSingleThoughtById(req, res) {
     const thought_id = req.params.thought_id;
-    const user = await Thought.findById(thought_id).populate({
-        path: 'thoughts',
-        select: 'reactionBody'
-        // TODO - remove populate and reaction body? 
-    });
+    const user = await Thought.findById(thought_id);
     res.json({
         user: user
     });
 }
-// TODO POST to create a new thought (and push created thought's _id to the associated user's thoughts array field)
-// TODO PUT to update a thought by it's _id
-// TODO DELETE to remove a thought by it's _id
+;
+// DONE POST to create a new thought TESTED & COMPLETED
+// (and push created thought's _id to the associated user's thoughts array field)
+export async function addNewThought(req, res) {
+    const thought = await Thought.create(req.body);
+    await User.findByIdAndUpdate(req.body.user, {
+        $push: { thoughts: thought._id }
+    });
+    res.json({
+        thought: thought
+    });
+}
+;
+// DONE PUT to update a thought by it's _id COMPLETED & TESTED
+export async function updateThoughtById(req, res) {
+    const thought_id = req.params.thought_id;
+    const thoughtText = req.body.thoughtText;
+    const updatedThought = await Thought.findByIdAndUpdate(thought_id, {
+        thoughtText: thoughtText
+    }, { new: true });
+    res.json({
+        message: "Thought information updated!",
+        thought: updatedThought
+    });
+}
+// DONE DELETE to remove a thought by it's _id COMPLETED & TESTED
+export async function deleteThoughtById(req, res) {
+    const thought_id = req.params.thought_id;
+    await Thought.deleteOne({
+        _id: thought_id
+    });
+    res.json({
+        message: "Thought removed successfully."
+    });
+}
 // TODO POST to create a reaction stored in a single thought's reactions array field
+export async function addNewReaction(req, res) {
+    try {
+        const thought_id = req.params.thought_id;
+        const { reactionBody, username } = req.body;
+        const updatedThought = await Thought.findByIdAndUpdate(thought_id, {
+            $push: { reactions: { reactionBody, username, createdAt: new Date() } }
+        }, { new: true });
+        res.json({
+            message: "Reaction added successfully!",
+            thought: updatedThought
+        });
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+}
 // TODO DELETE to pull and remove a reaction by the reaction's reaction_Id value

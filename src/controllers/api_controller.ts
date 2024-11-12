@@ -1,13 +1,11 @@
 // This file defines the controller functions for handling API requests.
 
-// - Importing the Request and Response objects from the Express library.
-// - Lets me use these to define the request and responses parameters in my functions.
 import { Request, Response } from 'express';
 import User from '../models/User.js';
 import Thought from '../models/Thought.js';
 
 
-// DONE
+// GET all users
 export async function getAllUsers(_: Request, res: Response) {
   const user = await User.find();
 
@@ -16,7 +14,7 @@ export async function getAllUsers(_: Request, res: Response) {
   })
 }
 
-// DONE
+// GET single user by ID
 export async function getSingleUserById(req: Request, res: Response) {
   const user_id = req.params.user_id;
 
@@ -30,15 +28,13 @@ export async function getSingleUserById(req: Request, res: Response) {
   })
 }
 
-// DONE
+// POST create new user
 export async function createUser(req: Request, res: Response) {
-  // put the code that might throw an error. 'Try to execute it'.
   try {
     const user = await User.create(req.body);
     res.json({
       user: user
     });
-    // catch - if an error occurs in the try block, the code inside the catch block will run.
   } catch (error: any) {
     const errors: String[] = [];
     console.log(error);
@@ -56,7 +52,7 @@ export async function createUser(req: Request, res: Response) {
   }
 };
 
-// DONE
+// PUT update user by Id
 export async function updateUserById(req: Request, res: Response) {
 
   const user_id = req.params.user_id;
@@ -72,7 +68,7 @@ export async function updateUserById(req: Request, res: Response) {
   })
 }
 
-// DONE
+// DELETE user by Id
 export async function deleteUserById(req: Request, res: Response) {
   const user_id = req.params.user_id;
 
@@ -86,7 +82,7 @@ export async function deleteUserById(req: Request, res: Response) {
 }
 
 
-// DONE
+// POST add friend to friends list
 export async function addFriendToFriendsList(req: Request, res: Response) {
 
   const friendId = req.params.friendId;
@@ -101,7 +97,7 @@ export async function addFriendToFriendsList(req: Request, res: Response) {
 
 }
 
-/// DONE
+/// DELETE friend by Id
 export async function deleteFriendById(req: Request, res: Response) {
 
   const userId = req.params.userId;
@@ -111,7 +107,6 @@ export async function deleteFriendById(req: Request, res: Response) {
     $pull: { friends: friendId }
   });
 
-
   res.json({
     message: 'Friend deleted'
   })
@@ -119,7 +114,7 @@ export async function deleteFriendById(req: Request, res: Response) {
 
 
 
-// DONE
+// GET all thoughts from all users
 export async function getAllThoughts(_: Request, res: Response) {
   try {
     const thoughts = await Thought.find().populate({
@@ -132,7 +127,7 @@ export async function getAllThoughts(_: Request, res: Response) {
   }
 }
 
-// DONE
+// GET single thought by thought Id
 export async function getSingleThoughtById(req: Request, res: Response) {
   const thought_id = req.params.thought_id;
 
@@ -143,7 +138,7 @@ export async function getSingleThoughtById(req: Request, res: Response) {
   })
 };
 
-// DONE
+// POST add new thought
 export async function addNewThought(req: Request, res: Response) {
   const thought = await Thought.create(req.body);
   await User.findByIdAndUpdate(req.body.user, {
@@ -154,7 +149,7 @@ export async function addNewThought(req: Request, res: Response) {
   });
 };
 
-// DONE
+// PUT update thought by thought Id
 export async function updateThoughtById(req: Request, res: Response) {
 
   const thought_id = req.params.thought_id;
@@ -170,7 +165,7 @@ export async function updateThoughtById(req: Request, res: Response) {
   })
 }
 
-// DONE
+// DELETE thought by thought Id
 export async function deleteThoughtById(req: Request, res: Response) {
   const thought_id = req.params.thought_id;
 
@@ -182,7 +177,8 @@ export async function deleteThoughtById(req: Request, res: Response) {
     message: "Thought removed successfully."
   })
 }
-// DONE
+
+// POST add a reaction to a thought
 export async function addNewReaction(req: Request, res: Response) {
   try {
     const thought_id = req.params.thought_id;
@@ -206,7 +202,7 @@ export async function addNewReaction(req: Request, res: Response) {
   }
 }
 
-// DONE
+// DELETE reaction by reaction Id
 export async function deleteReactionById(req: Request, res: Response) {
   const { thoughtId, reaction_id } = req.params;
 

@@ -42,7 +42,6 @@ const reactionSchema = new Schema(
 
 
 const thoughtSchema = new Schema(
-  // Each 'Thought' object is going to have 'thought text', 'created at', 'username', and 'reactions'
   {
     thoughtText: {
       type: String,
@@ -53,7 +52,6 @@ const thoughtSchema = new Schema(
 
     createdAt: {
       type: Date,
-      // - This automatically sets the current date and time when a new document is created.
       default: Date.now,
       get: (timestamp: Date) => timestamp.toLocaleString(),
     },

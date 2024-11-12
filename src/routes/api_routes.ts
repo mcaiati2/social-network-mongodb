@@ -1,5 +1,3 @@
-// - Imports the Router class from the Express library.
-// - I got the ability to do this by running npm i express (didn't need to export)
 import { Router } from 'express';
 
 import {

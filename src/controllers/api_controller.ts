@@ -89,9 +89,9 @@ export async function deleteUserById(req: Request, res: Response) {
 // DONE
 export async function addFriendToFriendsList(req: Request, res: Response) {
 
-  const friendId = req.body.friendId;
+  const friendId = req.params.friendId;
 
-  await User.findByIdAndUpdate(req.body.userId, {
+  await User.findByIdAndUpdate(req.params.userId, {
     $push: { friends: friendId }
   });
 
@@ -104,8 +104,8 @@ export async function addFriendToFriendsList(req: Request, res: Response) {
 /// DONE
 export async function deleteFriendById(req: Request, res: Response) {
 
-  const userId = req.body.userId;
-  const friendId = req.body.friendId;
+  const userId = req.params.userId;
+  const friendId = req.params.friendId;
 
   await User.findByIdAndUpdate(userId, {
     $pull: { friends: friendId }

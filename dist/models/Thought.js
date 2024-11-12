@@ -1,6 +1,5 @@
 // This file is describing the structure and behavior of a Thought object.
 import mongoose from 'mongoose';
-// TODO - Types import notes
 const { Schema, model, Types } = mongoose;
 const reactionSchema = new Schema({
     reactionId: {
